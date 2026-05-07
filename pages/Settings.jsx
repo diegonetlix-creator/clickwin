@@ -186,7 +186,7 @@ export default function Settings() {
       };
 
       setTimeout(() => {
-        window.location.href = routeMap[newRole] || "/";
+        navigate(routeMap[newRole] || "/");
       }, 1500);
 
     } catch (error) {
@@ -478,7 +478,7 @@ export default function Settings() {
                 </div>
 
                 <button type="button" onClick={() => {
-                  supabase.auth.resetPasswordForEmail(user.email, { redirectTo: window.location.origin + "/reset-password" });
+                  supabase.auth.resetPasswordForEmail(user.email, { redirectTo: `${window.location.origin}/reset-password` });
                   setMessage({ type: "success", text: "Se ha enviado un correo para restablecer la contraseña" });
                 }} className="flex items-center justify-between w-full group bg-gray-800/50 border border-gray-700 p-6 rounded-3xl hover:bg-gray-800 transition-all">
                   <div className="flex items-center gap-4">

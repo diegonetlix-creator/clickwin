@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "./supabase";
 import Layout from "./Layout";
@@ -45,6 +45,8 @@ import CampaignPage from "./pages/CampaignPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Referrals from "./pages/Referrals";
+import InstallPWA from "./components/InstallPWA";
+import VerifyProfile from "./pages/VerifyProfile";
 
 function AppRoutes() {
   const { user, loading } = useAuth();
@@ -137,6 +139,7 @@ function AppRoutes() {
       {/* Shared Routes */}
       <Route path="/explore-new" element={<Layout currentPageName="Explorar"><ExploreNew /></Layout>} />
       <Route path="/campaign/:id" element={<Layout currentPageName="Campaña"><CampaignPage /></Layout>} />
+      <Route path="/verify-profile" element={<VerifyProfile />} />
       <Route path="/settings" element={<ProtectedRoute><Layout currentPageName="Settings"><Settings /></Layout></ProtectedRoute>} />
 
       {/* Fallback */}
@@ -147,11 +150,10 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
-    </Router>
+    <AuthProvider>
+      <AppRoutes />
+      <InstallPWA />
+    </AuthProvider>
   );
 }
 

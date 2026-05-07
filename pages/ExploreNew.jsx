@@ -68,7 +68,7 @@ export default function ExploreNew() {
               <span className="dot">3</span>
             </div>
             <div className="user-pill-mini">
-              <img src="https://i.pravatar.cc/150?u=antigravity" alt="user" className="w-8 h-8 rounded-full border border-white/20" />
+              <img src="https://i.pravatar.cc/150?u=antigravity" alt="user" loading="lazy" className="w-8 h-8 rounded-full border border-white/20" />
             </div>
           </div>
         </div>

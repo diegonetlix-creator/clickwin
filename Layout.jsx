@@ -1,6 +1,6 @@
 import { supabase } from "@/supabase";
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { createPageUrl, getLevel } from "@/utils";
 import User from "@/entities/User";
 import { Notification } from "@/entities/Notification";
@@ -60,6 +60,7 @@ const ADMIN_MENU = [
 const NO_LAYOUT_PAGES = ["landing", "login", "register"];
 
 export default function Layout({ children, currentPageName }) {
+  const navigate = useNavigate();
   const { user, profile, role: userRole } = useAuth();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -234,7 +235,7 @@ export default function Layout({ children, currentPageName }) {
           <Link to={createPageUrl("Settings")} title={desktopSidebarCollapsed ? "Configuración" : ""} className={`w-full flex items-center gap-2 text-gray-400 hover:text-white text-sm py-2 rounded-lg hover:bg-gray-800 transition-all mb-1 ${desktopSidebarCollapsed ? "px-0 justify-center" : "px-3"}`}>
             <Settings className="w-5 h-5 flex-shrink-0" /> {!desktopSidebarCollapsed && <span>Mi Perfil</span>}
           </Link>
-          <button onClick={() => User.logout().then(() => window.location.href = "/")} title={desktopSidebarCollapsed ? "Cerrar sesión" : ""} className={`w-full flex items-center gap-2 text-gray-500 hover:text-red-400 text-sm py-2 rounded-lg hover:bg-gray-800 transition-all ${desktopSidebarCollapsed ? "px-0 justify-center" : "px-3"}`}>
+          <button onClick={() => User.logout().then(() => navigate("/"))} title={desktopSidebarCollapsed ? "Cerrar sesión" : ""} className={`w-full flex items-center gap-2 text-gray-500 hover:text-red-400 text-sm py-2 rounded-lg hover:bg-gray-800 transition-all ${desktopSidebarCollapsed ? "px-0 justify-center" : "px-3"}`}>
             <LogOut className="w-5 h-5 flex-shrink-0" /> {!desktopSidebarCollapsed && <span>Cerrar sesión</span>}
           </button>
         </div>

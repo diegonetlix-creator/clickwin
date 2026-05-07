@@ -151,7 +151,7 @@ export default function Login() {
         {/* Simple Debug Link for Developer */}
         {loadingLogin && (
           <button 
-            onClick={() => window.location.reload()} 
+            onClick={() => navigate(0)} 
             className="mt-4 w-full text-center text-[10px] text-gray-700 hover:text-gray-500 uppercase tracking-tighter"
           >
             Si nada ocurre, haz clic aquí para recargar
