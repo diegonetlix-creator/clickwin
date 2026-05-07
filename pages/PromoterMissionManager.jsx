@@ -1,3 +1,4 @@
+import { supabase } from "@/supabase";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl, formatCurrency, formatPoints } from "@/utils";
@@ -52,7 +53,7 @@ export default function PromoterMissionManager() {
       if (!u) return;
       setUser(u);
 
-      const { supabase } = await import("@/supabase");
+      
 
       // Load Wallet
       const { data: walletData } = await supabase
@@ -102,7 +103,7 @@ export default function PromoterMissionManager() {
 
     setSaving(true);
     try {
-      const { supabase } = await import("@/supabase");
+      
 
       if (form.id) {
         // UPDATE
@@ -149,7 +150,7 @@ export default function PromoterMissionManager() {
   const handleDelete = async (id) => {
     if (!confirm("¿Estás seguro de eliminar esta misión?")) return;
     try {
-      const { supabase } = await import("@/supabase");
+      
       await supabase.from("daily_missions").delete().eq("id", id);
       loadData();
     } catch (err) {

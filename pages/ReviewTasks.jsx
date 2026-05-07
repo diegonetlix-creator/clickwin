@@ -258,7 +258,8 @@ export default function ReviewTasks() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {submissions.map((sub, idx) => (
             <div key={sub.id} onClick={() => toggleSelect(sub.id)}
-              className={`group bg-gray-900/50 border rounded-[2.5rem] overflow-hidden transition-all duration-500 relative cursor-pointer animate-in fade-in slide-in-from-bottom-10 delay-[${idx*50}ms] ${selectedIds.includes(sub.id) ? "border-white shadow-[0_0_40px_rgba(255,255,255,0.1)]" : "border-white/5 hover:border-white/20 shadow-2xl"}`}>
+              style={{ animationDelay: `${idx * 50}ms` }}
+              className={`group bg-gray-900/50 border rounded-[2.5rem] overflow-hidden transition-all duration-500 relative cursor-pointer animate-in fade-in slide-in-from-bottom-10 ${selectedIds.includes(sub.id) ? "border-white shadow-[0_0_40px_rgba(255,255,255,0.1)]" : "border-white/5 hover:border-white/20 shadow-2xl"}`}>
               
               <div className={`absolute top-6 left-6 z-20 w-8 h-8 rounded-xl border-2 flex items-center justify-center transition-all duration-500 ${selectedIds.includes(sub.id) ? "bg-white border-white scale-110 shadow-[0_0_20px_white]" : "bg-black/40 border-white/10 backdrop-blur-xl opacity-0 group-hover:opacity-100"}`}>
                 {selectedIds.includes(sub.id) && <CheckCircle className="w-5 h-5 text-black" />}
@@ -266,7 +267,7 @@ export default function ReviewTasks() {
 
               <div className="relative h-60 bg-gray-800 overflow-hidden">
                 {evidenceUrls[sub.id] ? (
-                  <img src={evidenceUrls[sub.id]} alt="Evidencia" className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-125" />
+                  <img src={evidenceUrls[sub.id]} alt="Evidencia" style={{ transitionDuration: '2s' }} className="w-full h-full object-cover transition-transform group-hover:scale-125" />
                 ) : (
                   <Camera className="w-20 h-20 text-white/10 mx-auto mt-20" />
                 )}

@@ -1,3 +1,4 @@
+import { supabase } from "@/supabase";
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -137,7 +138,7 @@ export default function CreateCampaign() {
         finalUrl = 'https://' + finalUrl;
       }
 
-      const { supabase } = await import("@/supabase");
+      
 
       if (editId) {
         // UPDATE MODE

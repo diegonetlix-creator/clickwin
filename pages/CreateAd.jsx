@@ -1,3 +1,4 @@
+import { supabase } from "@/supabase";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { createPageUrl, uploadFile } from "@/utils";
@@ -54,7 +55,7 @@ export default function CreateAd() {
   const loadCampaign = async () => {
     setLoading(true);
     try {
-      const { data, error } = await (await import("@/supabase")).supabase
+      const { data, error } = supabase
         .from("campaigns")
         .select("*")
         .eq("id", editId)
@@ -139,7 +140,7 @@ export default function CreateAd() {
         }
       }
 
-      const { supabase } = await import("@/supabase");
+      
 
       if (editId) {
         // UPDATE MODE

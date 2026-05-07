@@ -1,3 +1,4 @@
+import { supabase } from "@/supabase";
 import { useState, useEffect } from "react";
 import User from "@/entities/User";
 import { Task } from "@/entities/Task";
@@ -34,7 +35,7 @@ export default function WorkerHistory() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const { supabase } = await import("@/supabase");
+      
       const u = await User.me();
       if (!u) {
         setLoading(false);

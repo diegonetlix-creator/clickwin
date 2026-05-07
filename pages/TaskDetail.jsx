@@ -1,3 +1,4 @@
+import { supabase } from "@/supabase";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { createPageUrl, uploadFile } from "@/utils";
@@ -103,7 +104,7 @@ export default function TaskDetail() {
 
         // Fetch Daily Missions for the promoter
         if (promoterId) {
-          const { supabase } = await import("@/supabase");
+          
           const { data: missionsData, error: missionsError } = await supabase
             .from("daily_missions")
             .select("*")
@@ -125,7 +126,7 @@ export default function TaskDetail() {
         }
         
         // Check submission
-        const { supabase } = await import("@/supabase");
+        
         const { data: subs, error: subsError } = await supabase
           .from("submissions")
           .select("*")

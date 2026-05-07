@@ -1,3 +1,4 @@
+import { supabase } from "@/supabase";
 import { useState, useEffect } from "react";
 import { 
   CheckCircle, Clock, User as UserIcon, 
@@ -38,7 +39,7 @@ export default function SocialReview() {
   const fetchSubmissions = async () => {
     setLoading(true);
     try {
-      const { supabase } = await import("@/supabase");
+      
       
       const { data, error } = await supabase
         .rpc("get_pending_reviews");
@@ -57,7 +58,7 @@ export default function SocialReview() {
   const handleApprove = async (submissionId) => {
     setProcessing(submissionId);
     try {
-      const { supabase } = await import("@/supabase");
+      
 
       // ── ONLY via RPC — never mutate status from frontend ──────────
       const { data, error: rpcErr } = await supabase.rpc("grant_social_task_reward", {
@@ -130,7 +131,7 @@ export default function SocialReview() {
     if (reason === null) return;
     
     try {
-      const { supabase } = await import("@/supabase");
+      
       const { error } = await supabase
         .from('social_task_submissions')
         .update({ 
@@ -149,7 +150,7 @@ export default function SocialReview() {
       });
 
       // Reward the reviewer even for rejections (incentivize moderation)
-      const { supabase: sb } = await import("@/supabase");
+      const sb = supabase;
       await sb.rpc("reward_reviewer_points", {
         p_user_id: user.id,
         p_points: 5

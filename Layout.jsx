@@ -1,3 +1,4 @@
+import { supabase } from "@/supabase";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl, getLevel } from "@/utils";
@@ -71,7 +72,7 @@ export default function Layout({ children, currentPageName }) {
   useEffect(() => {
     const fetchNotifications = async (userId) => {
       try {
-        const { supabase } = await import("@/supabase");
+        
         const { data, error } = await supabase
           .from("notifications")
           .select("*")
@@ -88,7 +89,7 @@ export default function Layout({ children, currentPageName }) {
 
     const fetchPendingSocial = async () => {
       try {
-        const { supabase } = await import("@/supabase");
+        
         const { data, error } = await supabase.rpc("get_pending_reviews");
         if (error) throw error;
         setPendingSocialCount(data?.length || 0);
@@ -101,7 +102,7 @@ export default function Layout({ children, currentPageName }) {
         fetchNotifications(user.id);
         if (userRole === "admin" || userRole === "worker") fetchPendingSocial();
 
-        import("@/supabase").then(({ supabase }) => {
+        (() => {
           const nChannel = supabase
             .channel(`notifications-${user.id}`)
             .on("postgres_changes", { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user.id}` }, () => fetchNotifications(user.id))
@@ -148,7 +149,7 @@ export default function Layout({ children, currentPageName }) {
 
   const markAllAsRead = async () => {
     try {
-      const { supabase } = await import("@/supabase");
+      
       await supabase.from("notifications").update({ is_read: true }).eq("user_id", user.id).eq("is_read", false);
       setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
     } catch (err) {

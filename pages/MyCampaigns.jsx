@@ -1,3 +1,4 @@
+import { supabase } from "@/supabase";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -86,7 +87,7 @@ export default function MyCampaigns() {
       await Campaign.delete(id);
       
       // Also delete associated feed posts and tasks
-      const { supabase } = await import("@/supabase");
+      
       await supabase.from("feed_posts").delete().eq("campaign_id", id);
       await supabase.from("tasks").delete().eq("campaign_id", id);
       

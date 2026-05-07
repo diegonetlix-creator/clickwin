@@ -1,3 +1,4 @@
+import { supabase } from "@/supabase";
 /**
  * Utility functions for the application
  */
@@ -85,7 +86,7 @@ export function formatPoints(points) {
  * Upload a file to Supabase storage.
  */
 export async function uploadFile(file, options = { isPublic: true }) {
-  const { supabase } = await import("@/supabase");
+  
   const fileExt = file.name.split('.').pop();
   const fileId = Math.random().toString(36).substring(2);
   const fileName = `${fileId}-${Date.now()}.${fileExt}`;
@@ -108,7 +109,7 @@ export async function uploadFile(file, options = { isPublic: true }) {
  * Get a signed URL for a private file
  */
 export async function getSignedUrl(filePath) {
-  const { supabase } = await import("@/supabase");
+  
   if (!filePath) return null;
   // If it's already a full HTTP URL, return it
   if (filePath.startsWith('http')) return filePath;
@@ -144,7 +145,7 @@ export const getInitialRouteByRole = (role) => {
  */
 export async function auditLog(action, table, targetId, details = {}) {
   try {
-    const { supabase } = await import("@/supabase");
+    
     
     // Non-blocking call: we don't 'await' the RPC to avoid UI delays
     supabase.rpc("log_admin_action", {

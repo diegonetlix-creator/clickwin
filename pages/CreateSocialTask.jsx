@@ -1,3 +1,4 @@
+import { supabase } from "@/supabase";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -30,7 +31,7 @@ export default function CreateSocialTask() {
     
     setIsSubmitting(true);
     try {
-      const { supabase } = await import("@/supabase");
+      
       const { data, error } = await supabase.rpc('create_social_task', {
         p_promoter_id: user.id,
         p_platform: platform,
