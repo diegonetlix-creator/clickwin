@@ -1,0 +1,204 @@
+.profile-pro-page {
+    padding: 20px;
+    background: #020617;
+    min-height: 100vh;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.profile-avatar-wrapper {
+    position: relative;
+}
+
+.profile-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    background: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 900;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-level-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #8b5cf6;
+    color: white;
+    font-size: 8px;
+    font-weight: 900;
+    padding: 2px 6px;
+    border-radius: 100px;
+    border: 2px solid #020617;
+}
+
+.profile-info h1 {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.profile-stats-summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.point-pill {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    font-weight: 900;
+    color: #f97316;
+}
+
+.star-rating {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: #facc15;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* PROGRESS SECTION */
+.daily-progress-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    padding: 20px;
+    margin-bottom: 32px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.progress-header h3 {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.progress-header span {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.motivational-msg {
+    margin-top: 12px;
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+/* STATS GRID */
+.stats-pro-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.stat-pro-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 18px;
+    padding: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-pro-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-pro-value {
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.stat-pro-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* STREAK BOX */
+.streak-box-pro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: rgba(249, 115, 22, 0.05);
+    border: 1px solid rgba(249, 115, 22, 0.1);
+    border-radius: 20px;
+    margin-bottom: 32px;
+}
+
+.streak-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.streak-info h4 {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.streak-badge {
+    color: #f97316;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* ACHIEVEMENTS */
+.achievements-section h3 {
+    font-size: 14px;
+    font-weight: 900;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.achievement-badge {
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}

@@ -1,0 +1,41 @@
+{
+  "name": "Campaign",
+  "type": "object",
+  "properties": {
+    "title": { "type": "string", "description": "Campaign name" },
+    "description": { "type": "string", "description": "Campaign description" },
+    "social_network": {
+      "type": "string",
+      "enum": ["instagram", "facebook", "youtube", "tiktok", "twitter", "linkedin", "twitch"],
+      "description": "Target social network"
+    },
+    "task_type": {
+      "type": "string",
+      "enum": ["like", "comment", "follow", "share", "save", "view_story", "watch_video", "screenshot", "specific_comment", "visit_profile"],
+      "description": "Type of task"
+    },
+    "target_url": { "type": "string", "description": "URL of the post/video/profile" },
+    "instructions": { "type": "string", "description": "Detailed instructions for workers" },
+    "reference_image_url": { "type": "string", "description": "Reference image URL" },
+    "reward_per_task": { "type": "number", "description": "Points/money per completed task" },
+    "max_participants": { "type": "number", "description": "Maximum number of participants" },
+    "current_participants": { "type": "number", "default": 0, "description": "Current participants count" },
+    "budget": { "type": "number", "description": "Total campaign budget" },
+    "spent": { "type": "number", "default": 0, "description": "Amount spent so far" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "paused", "completed", "cancelled"],
+      "default": "draft",
+      "description": "Campaign status"
+    },
+    "promoter_id": { "type": "string", "description": "ID of the promoter who created this" },
+    "promoter_email": { "type": "string", "description": "Email of the promoter" },
+    "promoter_name": { "type": "string", "description": "Name of the promoter" },
+    "approved_count": { "type": "number", "default": 0 },
+    "rejected_count": { "type": "number", "default": 0 },
+    "pending_count": { "type": "number", "default": 0 },
+    "deadline": { "type": "string", "format": "date", "description": "Campaign deadline" },
+    "category": { "type": "string", "description": "Campaign category/niche" }
+  },
+  "required": ["title", "social_network", "task_type", "reward_per_task", "max_participants"]
+}

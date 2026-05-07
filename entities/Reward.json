@@ -1,0 +1,27 @@
+{
+  "name": "Reward",
+  "type": "object",
+  "properties": {
+    "worker_id": { "type": "string", "description": "Worker who earned this reward" },
+    "worker_email": { "type": "string", "description": "Worker email" },
+    "worker_name": { "type": "string", "description": "Worker name" },
+    "task_id": { "type": "string", "description": "Task that generated this reward" },
+    "campaign_id": { "type": "string", "description": "Campaign reference" },
+    "campaign_title": { "type": "string", "description": "Campaign title" },
+    "amount": { "type": "number", "description": "Reward amount in points" },
+    "type": {
+      "type": "string",
+      "enum": ["task_completion", "daily_mission", "streak_bonus", "referral", "level_up", "withdrawal"],
+      "description": "Type of reward transaction"
+    },
+    "description": { "type": "string", "description": "Description of the reward" },
+    "balance_before": { "type": "number", "description": "Balance before this transaction" },
+    "balance_after": { "type": "number", "description": "Balance after this transaction" },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "confirmed", "cancelled"],
+      "default": "confirmed"
+    }
+  },
+  "required": ["worker_id", "amount", "type"]
+}

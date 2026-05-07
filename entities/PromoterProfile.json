@@ -1,0 +1,25 @@
+{
+  "name": "PromoterProfile",
+  "type": "object",
+  "properties": {
+    "user_id": { "type": "string", "description": "Reference to User" },
+    "user_email": { "type": "string", "description": "User email" },
+    "company_name": { "type": "string", "description": "Company or brand name" },
+    "display_name": { "type": "string", "description": "Display name" },
+    "avatar_url": { "type": "string", "description": "Avatar/logo URL" },
+    "website": { "type": "string", "description": "Website URL" },
+    "industry": { "type": "string", "description": "Industry/niche" },
+    "country": { "type": "string", "description": "Country" },
+    "bio": { "type": "string", "description": "Company description" },
+    "total_campaigns": { "type": "number", "default": 0 },
+    "active_campaigns": { "type": "number", "default": 0 },
+    "total_spent": { "type": "number", "default": 0, "description": "Total budget spent" },
+    "total_tasks_approved": { "type": "number", "default": 0 },
+    "total_tasks_rejected": { "type": "number", "default": 0 },
+    "wallet_balance": { "type": "number", "default": 0, "description": "Available budget to spend" },
+    "is_verified": { "type": "boolean", "default": false },
+    "is_suspended": { "type": "boolean", "default": false },
+    "rating": { "type": "number", "default": 5, "description": "Promoter rating by workers" }
+  },
+  "required": ["user_id", "user_email"]
+}

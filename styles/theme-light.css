@@ -1,0 +1,111 @@
+/* THEME LIGHT — SCOPED TO .explore-light-theme */
+.explore-light-theme {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --accent-primary: #4f46e5;
+  --accent-secondary: #8b5cf6;
+  --border-subtle: #f1f5f9;
+  --shadow-subtle: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-strong: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+}
+
+.explore-light-theme {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* TOPBAR ADAPTATION */
+.explore-light-theme .topbar {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-primary) !important;
+}
+
+.explore-light-theme .topbar .brand {
+    color: var(--text-primary) !important;
+}
+
+.explore-light-theme .icon-btn {
+    background: var(--border-subtle) !important;
+    color: var(--text-primary) !important;
+}
+
+/* SEARCH BOX ADAPTATION */
+.explore-light-theme .search-box {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-subtle);
+}
+
+.explore-light-theme .search-box input {
+    color: var(--text-primary) !important;
+}
+
+.explore-light-theme .search-box input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* STORYBAR ADAPTATION */
+.explore-light-theme .storybar {
+    background: transparent;
+}
+
+.explore-light-theme .story-item span {
+    color: var(--text-secondary) !important;
+    font-weight: 700;
+}
+
+.explore-light-theme .story-ring {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    padding: 3px;
+    box-shadow: var(--shadow-subtle);
+}
+
+/* CARDS ADAPTATION */
+.explore-light-theme .ui-card-wrapper {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-subtle) !important;
+    box-shadow: var(--shadow-subtle);
+}
+
+.explore-light-theme .explore-card-v3 {
+    background: var(--bg-secondary) !important;
+}
+
+.explore-light-theme .card-details .card-title {
+    color: var(--text-primary) !important;
+}
+
+.explore-light-theme .card-details .card-desc {
+    color: var(--text-secondary) !important;
+}
+
+.explore-light-theme .points-chip {
+    background: #eff6ff !important;
+    color: #2563eb !important;
+}
+
+.explore-light-theme .users-chip {
+    color: var(--text-secondary) !important;
+}
+
+/* BOTTOM NAV ADAPTATION */
+.explore-light-theme .bottom-nav {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(12px) !important;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.explore-light-theme .nav-item {
+    color: var(--text-secondary) !important;
+}
+
+.explore-light-theme .nav-item.active {
+    background: #f1f5f9 !important;
+    color: var(--accent-primary) !important;
+}

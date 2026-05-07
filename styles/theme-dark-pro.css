@@ -1,0 +1,172 @@
+/* THEME DARK PRO — GLASSMORPHISM SYSTEM */
+:root {
+  --bg-main: #020617;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(255, 255, 255, 0.05);
+  
+  --text-main: #f8fafc;
+  --text-soft: #94a3b8;
+  
+  --primary: #7c3aed;
+  --primary-glow: rgba(124, 58, 237, 0.4);
+  --secondary: #0ea5e9;
+  
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(20px);
+}
+
+.explore-dark-glass {
+  background: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+/* GLASS CARD UTILITY */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* TOPBAR GLASS */
+.explore-dark-glass .topbar {
+    background: rgba(2, 6, 23, 0.7) !important;
+    backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid var(--glass-border);
+    color: var(--text-main) !important;
+}
+
+.explore-dark-glass .search-bar-container {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--glass-border);
+}
+
+/* FLASH DEAL BANNER */
+.flash-deal-banner {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(59, 130, 246, 0.15));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.flash-deal-banner::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, transparent 70%);
+    filter: blur(40px);
+}
+
+.flash-deal-content h2 {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.flash-deal-content p {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-bottom: 20px;
+    max-width: 200px;
+}
+
+.btn-flash {
+    background: #7c3aed;
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 12px 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px var(--primary-glow);
+    transition: all 0.2s ease;
+}
+
+.btn-flash:active {
+    transform: scale(0.95);
+}
+
+.flash-deal-graphic {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.x2-pts {
+    font-size: 40px;
+    font-weight: 950;
+    color: white;
+    text-shadow: 0 0 30px rgba(124, 58, 237, 0.8);
+    z-index: 2;
+}
+
+/* STORY RING DARK */
+.explore-dark-glass .story-ring {
+    background: #020617;
+    border: 2px solid #7c3aed;
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+}
+
+/* CARD V2 DARK ADAPTATION */
+.explore-dark-glass .explore-grid-v2 .ui-card-wrapper {
+    background: var(--bg-card) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    border: 1px solid var(--glass-border) !important;
+}
+
+.explore-dark-glass .card-title {
+    color: var(--text-main) !important;
+}
+
+.explore-dark-glass .card-desc {
+    color: var(--text-soft) !important;
+}
+
+.explore-dark-glass .points-pill {
+    background: rgba(124, 58, 237, 0.15) !important;
+    color: #a78bfa !important;
+    border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+/* BOTTOM PROGRESS DARK */
+.explore-dark-glass .progress-mini-box {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid var(--glass-border) !important;
+}
+
+.explore-dark-glass .ui-progress-container {
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.explore-dark-glass .progress-footer-msg {
+    background: rgba(255, 255, 255, 0.03) !important;
+    color: var(--text-soft) !important;
+}
+
+.explore-dark-glass .stat-pill-box {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid var(--glass-border) !important;
+}

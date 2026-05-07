@@ -1,0 +1,66 @@
+/* UI LAYER DESIGN SYSTEM */
+.ui-card-wrapper {
+  position: relative;
+  background: rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  
+  border-radius: 24px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+  
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 20px;
+}
+
+/* SUBTLE INNER GLOW */
+.ui-card-wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        circle at 20% 0%,
+        rgba(255, 255, 255, 0.03),
+        transparent 50%
+    );
+    pointer-events: none;
+}
+
+/* HOVER EFFECT */
+.ui-card-wrapper:hover {
+  transform: translateY(-4px) scale(1.005);
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.5);
+}
+
+/* MOBILE ADAPTATION */
+@media (max-width: 768px) {
+  .ui-card-wrapper {
+    padding: 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+}
+
+/* DASHBOARD INTEGRATION */
+.ui-card-wrapper h2 {
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748b;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ui-card-wrapper .view-all-link {
+    font-size: 11px;
+    color: #6366f1;
+    text-transform: none;
+    letter-spacing: 0;
+}

@@ -1,0 +1,29 @@
+{
+  "name": "Submission",
+  "type": "object",
+  "properties": {
+    "task_id": { "type": "string", "description": "Reference to Task" },
+    "campaign_id": { "type": "string", "description": "Reference to Campaign" },
+    "campaign_title": { "type": "string", "description": "Campaign title" },
+    "worker_id": { "type": "string", "description": "Worker who submitted" },
+    "worker_email": { "type": "string", "description": "Worker email" },
+    "worker_name": { "type": "string", "description": "Worker name" },
+    "promoter_id": { "type": "string", "description": "Promoter who owns the campaign" },
+    "promoter_email": { "type": "string", "description": "Promoter email" },
+    "evidence_url": { "type": "string", "description": "Screenshot URL" },
+    "evidence_note": { "type": "string", "description": "Additional notes from worker" },
+    "task_type": { "type": "string", "description": "Type of task completed" },
+    "social_network": { "type": "string", "description": "Social network" },
+    "reward": { "type": "number", "description": "Reward amount" },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "approved", "rejected"],
+      "default": "pending",
+      "description": "Review status"
+    },
+    "rejection_reason": { "type": "string", "description": "Reason if rejected" },
+    "reviewed_by": { "type": "string", "description": "Who reviewed this submission" },
+    "reviewed_at": { "type": "string", "description": "When it was reviewed" }
+  },
+  "required": ["task_id", "campaign_id", "worker_id", "evidence_url"]
+}

@@ -1,0 +1,104 @@
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 16px;
+  z-index: 50;
+
+  background: rgba(2, 6, 23, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .topbar {
+    left: 256px;
+  }
+  .desktop-collapsed .topbar {
+    left: 80px;
+  }
+}
+
+/* LEFT */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 800;
+  color: white;
+  font-size: 14px;
+
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand {
+  font-weight: 700;
+  color: white;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+/* RIGHT */
+.topbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.icon-btn {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5f5;
+
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.icon-btn:active {
+  transform: scale(0.9);
+}
+
+/* ESPACIO PARA NO TAPAR CONTENIDO */
+.feed-page, .app-container, .page-content {
+  padding-top: 72px !important;
+}

@@ -1,0 +1,259 @@
+.fraud-dashboard {
+  min-height: 100vh;
+  background: #020617;
+  color: white;
+  padding: 24px;
+}
+
+.fraud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+}
+
+.fraud-title-group h1 {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.fraud-title-group p {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* TOP METRICS */
+.fraud-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.metric-mini-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metric-mini-card .label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-mini-card .value {
+  font-size: 24px;
+  font-weight: 900;
+}
+
+/* FEATURE CARDS */
+.fraud-features-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feature-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #818cf8;
+}
+
+.feature-info h3 {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.feature-info p {
+    font-size: 10px;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+.status-badge {
+    align-self: flex-start;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+}
+
+/* FLOW DIAGRAM */
+.flow-section {
+    margin-bottom: 32px;
+}
+
+.flow-container {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    z-index: 2;
+    flex: 1;
+}
+
+.step-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.flow-step.active .step-icon {
+    background: #6366f1;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.step-info h4 {
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.step-info p {
+    font-size: 9px;
+    color: #64748b;
+}
+
+.flow-connector {
+    flex: 0.5;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 0 10px;
+    margin-top: -30px;
+}
+
+/* MAIN CONTENT GRID */
+.fraud-main-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+/* TABLES & LISTS */
+.section-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 20px;
+    padding: 24px;
+}
+
+.box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.box-header h2 {
+    font-size: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.fraud-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.fraud-table th {
+    text-align: left;
+    padding: 12px;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #64748b;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.fraud-table td {
+    padding: 12px;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* AUDIT LOG */
+.log-item {
+    display: flex;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.log-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+
+.log-content {
+    flex: 1;
+}
+
+.log-time {
+    font-size: 10px;
+    color: #64748b;
+    margin-bottom: 2px;
+}
+
+.log-text {
+    font-size: 12px;
+    color: #cbd5e1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+    .fraud-metrics-grid, .fraud-features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .fraud-main-grid {
+        grid-template-columns: 1fr;
+    }
+}

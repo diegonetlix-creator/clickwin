@@ -1,0 +1,20 @@
+{
+  "name": "Notification",
+  "type": "object",
+  "properties": {
+    "user_id": { "type": "string", "description": "Target user ID" },
+    "user_email": { "type": "string", "description": "Target user email" },
+    "title": { "type": "string", "description": "Notification title" },
+    "message": { "type": "string", "description": "Notification message" },
+    "type": {
+      "type": "string",
+      "enum": ["task_approved", "task_rejected", "new_campaign", "new_task", "reward_earned", "level_up", "streak", "system", "withdrawal"],
+      "description": "Notification type"
+    },
+    "is_read": { "type": "boolean", "default": false },
+    "link": { "type": "string", "description": "Optional link to navigate to" },
+    "icon": { "type": "string", "description": "Icon name" },
+    "metadata": { "type": "string", "description": "JSON metadata" }
+  },
+  "required": ["user_id", "title", "message", "type"]
+}
