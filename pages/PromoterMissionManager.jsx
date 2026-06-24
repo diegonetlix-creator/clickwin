@@ -1,4 +1,6 @@
-import { supabase } from "@/supabase";
+﻿import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl, formatCurrency, formatPoints } from "@/utils";
@@ -153,7 +155,7 @@ export default function PromoterMissionManager() {
       loadData();
     } catch (err) {
       console.error("Error saving mission:", err);
-      alert("Error al guardar la misión");
+      toast.error("Error al procesar. Intenta de nuevo.");
     } finally {
       setSaving(false);
     }
@@ -471,3 +473,5 @@ export default function PromoterMissionManager() {
     </div>
   );
 }
+
+

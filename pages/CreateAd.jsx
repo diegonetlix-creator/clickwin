@@ -1,4 +1,5 @@
-import { supabase } from "@/supabase";
+﻿import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { createPageUrl, uploadFile } from "@/utils";
@@ -277,7 +278,7 @@ export default function CreateAd() {
       setTimeout(() => navigate(createPageUrl(editId ? "MyCampaigns" : "Feed")), 500);
     } catch (err) {
       console.error("Error saving campaign:", err);
-      alert("Error al guardar la tarea: " + err.message);
+      toast.error("Error: " + err.message);
       setSaving(false);
     }
   };
@@ -668,3 +669,4 @@ export default function CreateAd() {
     </div>
   );
 }
+

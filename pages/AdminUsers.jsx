@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { Search, Users, Shield, UserCheck, UserX, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { auditLog, ACTION } from "@/utils";
@@ -10,6 +12,7 @@ export default function AdminUsers() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [processing, setProcessing] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -56,7 +59,7 @@ export default function AdminUsers() {
       console.log(`Updated balance for ${user.id} to ${balanceNum}`);
     } catch (err) {
       console.error("Error updating balance:", err);
-      alert("Error al actualizar saldo: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setProcessing(null);
     }
@@ -81,16 +84,21 @@ export default function AdminUsers() {
       setUsers(prev => prev.map(u => u.id === user.id ? { ...u, status: newStatus } : u));
     } catch (err) {
       console.error("Error suspending user:", err);
-      alert("Error al cambiar estado: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setProcessing(null);
     }
   };
 
-  const changeRole = async (user, newRole) => {
-    try {
-      if(!window.confirm(`¿Seguro que deseas cambiar el rol de ${user.email} a ${newRole}?`)) return;
+  const changeRole = (user, newRole) => {
+    setConfirmDialog({
+      message: `¿Cambiar el rol de ${user.email} a "${newRole}"?`,
+      onConfirm: () => doChangeRole(user, newRole),
+    });
+  };
 
+  const doChangeRole = async (user, newRole) => {
+    try {
       setProcessing(user.id);
       
       const { error } = await supabase
@@ -109,7 +117,7 @@ export default function AdminUsers() {
       setUsers(prev => prev.map(u => u.id === user.id ? { ...u, role: newRole } : u));
     } catch (err) {
       console.error("Error updating role:", err);
-      alert("Error al cambiar rol: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setProcessing(null);
     }
@@ -217,5 +225,17 @@ export default function AdminUsers() {
         </div>
       )}
     </div>
+
+      {confirmDialog && (
+        <ConfirmDialog
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={() => setConfirmDialog(null)}
+          confirmLabel="Confirmar"
+          danger
+        />
+      )}
   );
 }
+
+

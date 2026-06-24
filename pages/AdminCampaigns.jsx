@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { TrendingUp, AlertTriangle, Play, Pause, Trash2, Search, CheckSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -46,7 +48,7 @@ export default function AdminCampaigns() {
       setCampaigns(prev => prev.map(c => c.id === campaign.id ? { ...c, status: newStatus } : c));
     } catch (err) {
       console.error("Error toggling campaign:", err);
-      alert("Error: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setProcessing(null);
     }
@@ -68,7 +70,7 @@ export default function AdminCampaigns() {
       setCampaigns(prev => prev.filter(c => c.id !== campaignId));
     } catch (err) {
       console.error("Error deleting campaign:", err);
-      alert("Error al borrar: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setProcessing(null);
     }
@@ -161,3 +163,5 @@ export default function AdminCampaigns() {
     </div>
   );
 }
+
+

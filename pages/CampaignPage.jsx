@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { 
   ChevronLeft, Share2, Users, Zap, CheckCircle2, 
   ArrowRight, Loader2, Info, Heart, MessageCircle, Send, Play
 } from "lucide-react";
 import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
 import CardWrapper from "@/components/ui/CardWrapper";
 import "@/styles/campaign.css";
 
@@ -245,3 +246,4 @@ export default function CampaignPage() {
     </div>
   );
 }
+

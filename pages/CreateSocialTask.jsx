@@ -1,4 +1,5 @@
-import { supabase } from "@/supabase";
+﻿import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -49,7 +50,7 @@ export default function CreateSocialTask() {
       navigate("/social-tasks");
     } catch (err) {
       console.error("Error creating social task:", err);
-      alert("Error al publicar la misión: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -195,3 +196,4 @@ export default function CreateSocialTask() {
     </div>
   );
 }
+

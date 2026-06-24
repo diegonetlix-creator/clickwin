@@ -1,4 +1,6 @@
-import { supabase } from "@/supabase";
+﻿import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -25,6 +27,7 @@ export default function MyCampaigns() {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [confirmDialog, setConfirmDialog] = useState(null);
   const [statusFilter, setStatusFilter] = useState("all");
   const [updating, setUpdating] = useState(null);
 
@@ -80,8 +83,14 @@ export default function MyCampaigns() {
     setUpdating(null);
   };
   
-  const deleteCampaign = async (id) => {
-    if (!confirm("¿Estás seguro de que deseas eliminar esta campaña? Esta acción no se puede deshacer y eliminará todas las tareas asociadas.")) return;
+  const deleteCampaign = (id) => {
+    setConfirmDialog({
+      message: "¿Eliminar esta campaña? Esta acción no se puede deshacer y eliminará todas las tareas asociadas.",
+      onConfirm: () => doDeleteCampaign(id),
+    });
+  };
+
+  const doDeleteCampaign = async (id) => {
     setUpdating(id);
     try {
       await Campaign.delete(id);
@@ -94,7 +103,7 @@ export default function MyCampaigns() {
       setCampaigns(prev => prev.filter(c => c.id !== id));
     } catch (e) {
       console.error(e);
-      alert("Error al eliminar la campaña");
+      toast.error("Error al procesar. Intenta de nuevo.");
     }
     setUpdating(null);
   };
@@ -247,5 +256,15 @@ export default function MyCampaigns() {
         </div>
       )}
     </div>
+
+      {confirmDialog && (
+        <ConfirmDialog
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={() => setConfirmDialog(null)}
+          confirmLabel="Eliminar"
+          danger
+        />
+      )}
   );
 }

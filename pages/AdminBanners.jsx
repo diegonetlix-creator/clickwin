@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+﻿import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import {
   Shield, Plus, Trash2, RefreshCw,
   ArrowLeft, Upload, X, Check, ChevronLeft, ChevronRight,
@@ -353,7 +355,7 @@ export default function AdminBanners() {
       }
     } catch (err) {
       console.error("[AdminBanners] toggle:", err);
-      alert("Error: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setProcessing(null);
     }
@@ -371,7 +373,7 @@ export default function AdminBanners() {
       alert("Banner eliminado.");
     } catch (err) {
       console.error("[AdminBanners] delete:", err);
-      alert("Error: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setProcessing(null);
     }
@@ -736,3 +738,5 @@ function BannerCarousel({ banner }) {
     </div>
   );
 }
+
+

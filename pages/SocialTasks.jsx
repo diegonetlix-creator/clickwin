@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { 
   Users, Globe, Instagram, Twitter, 
   Youtube, MessageSquare, ExternalLink, 
@@ -8,6 +8,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
 import { formatPoints } from "@/utils";
 import { SocialTask } from "@/entities/SocialTask";
 import { SocialTaskSubmission } from "@/entities/SocialTaskSubmission";
@@ -202,7 +203,7 @@ ${shareUrl}`;
       fetchTasks();
     } catch (err) {
       console.error("Error submitting task:", err);
-      alert("Error: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setSubmitting(null);
     }
@@ -427,3 +428,4 @@ ${shareUrl}`;
     </div>
   );
 }
+

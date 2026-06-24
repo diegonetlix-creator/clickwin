@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Zap, Trophy, Target, Star, CheckCircle, Clock, Gift, Flame, ChevronRight, Calendar } from "lucide-react";
 import { formatPoints } from "@/utils";
 import User from "@/entities/User";
 import { MISSION_TEMPLATES } from "@/constants/missions";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
 
 // ─── Mission progress skeleton ────────────────────────────────────────────────
 function MissionSkeleton() {
@@ -168,7 +169,7 @@ export default function DailyMissions() {
       ));
     } catch (err) {
       console.error("Error al reclamar misión:", err);
-      alert("Error: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setClaiming(null);
     }
@@ -352,3 +353,4 @@ export default function DailyMissions() {
     </div>
   );
 }
+

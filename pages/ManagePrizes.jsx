@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { 
   Plus, Edit2, Trash2, Image as ImageIcon, Sparkles, 
   Coins, Wallet, X, Save, AlertCircle, CheckCircle,
@@ -101,7 +103,7 @@ export default function ManagePrizes() {
       if (error) throw error;
       setRedemptions(prev => prev.map(r => r.id === id ? { ...r, status } : r));
     } catch (err) {
-      alert("Error al actualizar estado");
+      toast.error("Error al procesar. Intenta de nuevo.");
     }
   };
 
@@ -127,7 +129,7 @@ export default function ManagePrizes() {
       if (error) throw error;
       setPrizes(prev => prev.filter(p => p.id !== id));
     } catch (err) {
-      alert("Error al eliminar");
+      toast.error("Error al procesar. Intenta de nuevo.");
     }
   };
 
@@ -141,7 +143,7 @@ export default function ManagePrizes() {
       if (error) throw error;
       setPrizes(prev => prev.map(p => p.id === prize.id ? { ...p, is_active: newStatus } : p));
     } catch (err) {
-      alert("Error al cambiar estado");
+      toast.error("Error al procesar. Intenta de nuevo.");
     }
   };
 
@@ -172,7 +174,7 @@ export default function ManagePrizes() {
       setEditingPrize(null);
       loadPrizes();
     } catch (err) {
-      alert("Error al guardar: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setProcessing(false);
     }
@@ -183,7 +185,7 @@ export default function ManagePrizes() {
       const { url } = await uploadFile(file);
       setForm(prev => ({ ...prev, image_url: url }));
     } catch (err) {
-      alert("Error al subir imagen");
+      toast.error("Error al procesar. Intenta de nuevo.");
     }
   };
 
@@ -471,3 +473,5 @@ export default function ManagePrizes() {
 // Sub-components icons mapping (Fixed naming to avoid conflict)
 function TagIcon({ className }) { return <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>; }
 function InfoIcon({ className }) { return <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>; }
+
+

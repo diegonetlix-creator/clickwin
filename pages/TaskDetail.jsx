@@ -1,4 +1,5 @@
-import { supabase } from "@/supabase";
+﻿import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { createPageUrl, uploadFile } from "@/utils";
@@ -486,3 +487,4 @@ export default function TaskDetail() {
     </div>
   );
 }
+

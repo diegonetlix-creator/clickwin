@@ -1,4 +1,6 @@
-import { supabase } from "@/supabase";
+﻿import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { useState, useEffect } from "react";
 import { 
   CheckCircle, Clock, User as UserIcon, 
@@ -20,6 +22,8 @@ export default function SocialReview() {
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [rejectDialog, setRejectDialog] = useState(null); // { submissionId }
+  const [rejectReason, setRejectReason] = useState("");
 
   // Rate limit tracking via ledger
   const rateLimit = useRateLimit(user?.id, "review", 20);
@@ -126,43 +130,35 @@ export default function SocialReview() {
   };
 
 
-  const handleReject = async (submissionId) => {
-    const reason = prompt("Razón del rechazo:", "No coincide con el perfil esperado");
-    if (reason === null) return;
-    
+  const handleReject = (submissionId) => {
+    setRejectReason("No coincide con el perfil esperado");
+    setRejectDialog({ submissionId });
+  };
+
+  const doReject = async () => {
+    const { submissionId } = rejectDialog;
+    const reason = rejectReason.trim() || "Rechazo sin motivo";
+    setRejectDialog(null);
     try {
-      
       const { error } = await supabase
         .from('social_task_submissions')
-        .update({ 
-          status: 'rejected',
-          rejection_reason: reason 
-        })
+        .update({ status: 'rejected', rejection_reason: reason })
         .eq('id', submissionId);
-
       if (error) throw error;
-      
+
       const submission = submissions.find(s => s.id === submissionId);
       auditLog(ACTION.REJECT_SOCIAL, "social_task_submissions", submissionId, {
         worker_id: submission?.worker_id,
         task_title: submission?.task_title,
-        reason: reason
+        reason,
       });
 
-      // Reward the reviewer even for rejections (incentivize moderation)
-      const sb = supabase;
-      await sb.rpc("reward_reviewer_points", {
-        p_user_id: user.id,
-        p_points: 5
-      });
-
-      alert("Revisión guardada. Has ganado +5 pts.");
-      
-      // Update local state
+      await supabase.rpc("reward_reviewer_points", { p_user_id: user.id, p_points: 5 });
+      toast.success("Revisión guardada. Has ganado +5 pts.");
       setSubmissions(prev => prev.filter(s => s.id !== submissionId));
     } catch (err) {
       console.error("Error rejecting:", err);
-      alert("Error al rechazar: " + err.message);
+      toast.error("Error al rechazar: " + err.message);
     }
   };
 
@@ -317,6 +313,26 @@ export default function SocialReview() {
           </button>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <img src={preview} alt="Vista previa" className="w-full h-auto" />
+          </div>
+        </div>
+      )}
+
+      {/* Modal de razón de rechazo — reemplaza prompt() nativo */}
+      {rejectDialog && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8 max-w-sm w-full shadow-2xl" onClick={e => e.stopPropagation()}>
+            <h3 className="text-white font-black text-lg mb-4">Razón del rechazo</h3>
+            <textarea
+              autoFocus
+              value={rejectReason}
+              onChange={e => setRejectReason(e.target.value)}
+              rows={3}
+              className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-4 py-3 text-sm text-white resize-none focus:outline-none focus:border-red-400 mb-6"
+            />
+            <div className="flex gap-3">
+              <button onClick={() => setRejectDialog(null)} className="flex-1 py-3 rounded-2xl bg-gray-800 border border-gray-700 text-gray-300 font-bold text-sm">Cancelar</button>
+              <button onClick={doReject} className="flex-1 py-3 rounded-2xl bg-red-500/20 border border-red-500/30 text-red-400 font-bold text-sm hover:bg-red-500/30 transition-colors">Rechazar</button>
+            </div>
           </div>
         </div>
       )}

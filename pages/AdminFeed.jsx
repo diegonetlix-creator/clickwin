@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/supabase";
 import { auditLog, ACTION } from "@/utils";
 import { toast } from "@/components/Toast";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import {
   Shield, Plus, Trash2, Eye, EyeOff, Ban, RefreshCw,
   ImagePlus, X, Check, Edit3, ArrowLeft, Search,
@@ -139,7 +140,7 @@ export default function AdminFeed() {
       setForm(prev => ({ ...prev, image_url: urlData.publicUrl, media_type }));
     } catch (err) {
       console.error("[AdminFeed] upload error:", err);
-      alert("Error al subir archivo: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -578,3 +579,5 @@ export default function AdminFeed() {
     </div>
   );
 }
+
+

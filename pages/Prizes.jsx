@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+﻿import { useState, useEffect, useMemo } from "react";
 import { 
   Trophy, Flame, Target, Star, Medal, Crown, TrendingUp, Users, 
   Gift, ShoppingBag, CreditCard, Laptop, ShieldCheck, Zap, 
@@ -12,6 +12,7 @@ import { supabase } from "@/supabase";
 import { useAuth } from "@/contexts/AuthContext";
 import { formatPoints, formatCurrency } from "@/utils";
 import { toast } from "@/components/Toast";
+import ConfirmDialog from "@/components/ConfirmDialog";
 
 const LEVEL_COLORS = [
   "from-gray-400 to-gray-500",
@@ -36,6 +37,7 @@ export default function Prizes() {
   const [rankingUsers, setRankingUsers] = useState([]);
   const [isRedeeming, setIsRedeeming] = useState(false);
   const [profile, setProfile] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -112,12 +114,15 @@ export default function Prizes() {
     }
   };
 
-  const handleRedeem = async (prize) => {
-    if (points < prize.cost) {
-      toast.error("Saldo insuficiente");
-      return;
-    }
-    if (!confirm(`¿Canjear ${prize.title} por ${prize.cost} puntos?`)) return;
+  const handleRedeem = (prize) => {
+    if (points < prize.cost) { toast.error("Saldo insuficiente"); return; }
+    setConfirmDialog({
+      message: `¿Canjear "${prize.title}" por ${prize.cost} puntos? Esta acción no se puede deshacer.`,
+      onConfirm: () => doRedeem(prize),
+    });
+  };
+
+  const doRedeem = async (prize) => {
     setIsRedeeming(true);
     try {
       const { error: redeemError } = await supabase.rpc("redeem_prize", {
@@ -126,7 +131,7 @@ export default function Prizes() {
         p_prize_title: prize.title
       });
       if (redeemError) throw redeemError;
-      toast.success("¡Canje realizado con éxito! 🎉");
+      toast.success("¡Canje realizado con éxito!");
       loadUserData();
       loadAvailablePrizes();
     } catch (err) {
@@ -361,5 +366,16 @@ export default function Prizes() {
         </div>
       )}
     </div>
+
+      {confirmDialog && (
+        <ConfirmDialog
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={() => setConfirmDialog(null)}
+          confirmLabel="Canjear"
+        />
+      )}
   );
 }
+
+

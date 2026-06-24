@@ -1,4 +1,5 @@
-import { supabase } from "@/supabase";
+﻿import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -103,15 +104,15 @@ export default function CreateCampaign() {
 
   const nextStep = () => {
     if (currentStep === 1 && !form.title.trim()) {
-      alert("Por favor, ingresa un título para la campaña.");
+      toast.error("Por favor, ingresa un título para la campaña.");
       return;
     }
     if (currentStep === 1 && !form.category) {
-      alert("Por favor, selecciona una categoría para la campaña.");
+      toast.error("Por favor, selecciona una categoría para la campaña.");
       return;
     }
     if (currentStep === 2 && !form.instructions.trim()) {
-      alert("Por favor, proporciona instrucciones para los usuarios.");
+      toast.error("Por favor, proporciona instrucciones para los usuarios.");
       return;
     }
     setCurrentStep(prev => Math.min(prev + 1, 3));
@@ -260,7 +261,7 @@ export default function CreateCampaign() {
       navigate(createPageUrl("MyCampaigns"));
     } catch (err) {
       console.error(err);
-      alert("Error al procesar la campaña: " + err.message);
+      toast.error("Error: " + err.message);
       setSaving(false);
     }
   };
@@ -505,3 +506,4 @@ export default function CreateCampaign() {
     </div>
   );
 }
+
