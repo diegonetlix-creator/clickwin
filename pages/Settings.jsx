@@ -155,21 +155,14 @@ export default function Settings() {
   };
 
   const handleRoleChange = async (newRole) => {
-    // Only allow switching TO admin if you are the specific owner email
-    if (newRole === "admin" && authUser?.email !== "jaysonteayuda@gmail.com") {
-      return alert("No autorizado para cambiar a Administrador.");
-    }
     if (newRole === user.role) return;
 
+    // Cambio de rol vía RPC — el servidor valida que no se pueda escalar a admin
     setSaving(true);
     setMessage({ type: "", text: "" });
 
     try {
-      const { error } = await supabase
-        .from("profiles")
-        .update({ role: newRole })
-        .eq("id", user.id);
-
+      const { error } = await supabase.rpc("switch_role", { p_new_role: newRole });
       if (error) throw error;
 
       // Update global context
@@ -334,21 +327,7 @@ export default function Settings() {
                       <div className="text-[10px] text-gray-500 leading-tight">Publica tus propias campañas, gestiona anuncios y analiza estadísticas.</div>
                     </button>
 
-                    {authUser?.email === 'jaysonteayuda@gmail.com' && (
-                      <button
-                        type="button"
-                        onClick={() => handleRoleChange("admin")}
-                        disabled={saving}
-                        className={`p-6 rounded-3xl border-2 transition-all text-left flex flex-col gap-2 col-span-1 md:col-span-2 ${user?.role === 'admin' ? 'bg-indigo-600/10 border-indigo-600 shadow-lg shadow-indigo-600/10' : 'bg-gray-800/50 border-gray-700 hover:border-violet-500 opacity-60'}`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <Shield className={`w-8 h-8 ${user?.role === 'admin' ? 'text-indigo-400' : 'text-gray-500'}`} />
-                          {user?.role === 'admin' ? <Check className="w-5 h-5 text-indigo-400" /> : null}
-                        </div>
-                        <div className="mt-2 font-black uppercase text-sm tracking-tighter text-indigo-400">MODO SUPER ADMIN 👑</div>
-                        <div className="text-[10px] text-gray-500 leading-tight">Acceso total al sistema, control de usuarios, finanzas y auditoría global.</div>
-                      </button>
-                    )}
+                    {/* El rol admin solo se asigna desde el panel de administración, nunca desde el cliente */}
                   </div>
                   
                   {user?.role === 'admin' && (

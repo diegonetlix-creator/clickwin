@@ -118,23 +118,35 @@ export default function PromoterMissionManager() {
           })
           .eq("id", form.id);
       } else {
-        // CREATE
-        await supabase.from("daily_missions").insert({
-          title: form.title,
-          type: form.type,
-          reward_pts: form.reward_pts,
-          required_actions: form.required_actions,
-          max_completions: form.max_completions,
-          created_by: user.id
-        });
+        // CREATE — primero insertar la misión para obtener su id
+        const { data: newMission, error: insertErr } = await supabase
+          .from("daily_missions")
+          .insert({
+            title: form.title,
+            type: form.type,
+            reward_pts: form.reward_pts,
+            required_actions: form.required_actions,
+            max_completions: form.max_completions,
+            created_by: user.id
+          })
+          .select("id")
+          .single();
+        if (insertErr) throw insertErr;
 
-        // Deduct Wallet
-        await supabase
-          .from("wallets")
-          .update({ balance: wallet - totalCost })
-          .eq("user_id", user.id);
-        
-        setWallet(wallet - totalCost);
+        // Descontar presupuesto de forma atómica en el servidor
+        const { error: budgetErr } = await supabase.rpc("deduct_promoter_budget", {
+          p_total_cost: totalCost,
+          p_mission_id: newMission.id
+        });
+        if (budgetErr) {
+          // Si falla el descuento, eliminar la misión recién creada para no dejarla huérfana
+          await supabase.from("daily_missions").delete().eq("id", newMission.id);
+          const msg = budgetErr.message || "";
+          if (msg.includes("INSUFFICIENT_BUDGET")) throw new Error("Fondos insuficientes.");
+          throw budgetErr;
+        }
+
+        setWallet(prev => prev - totalCost);
       }
 
       setShowCreateModal(false);

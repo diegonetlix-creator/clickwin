@@ -42,17 +42,18 @@ export default function Register() {
       // 2. Explicitly create the profile record in our database table
       if (data.user) {
         const referrerId = localStorage.getItem("referrer");
-        
-          const userRole = formData.email === 'jaysonteayuda@gmail.com' ? 'admin' : role;
-          
-          const { error: profileError } = await supabase
+
+        // role solo puede ser worker o promoter desde el cliente
+        const safeRole = role === "promoter" ? "promoter" : "worker";
+
+        const { error: profileError } = await supabase
             .from('profiles')
             .insert({
               id: data.user.id,
               email: formData.email,
               name: formData.fullName,
-              role: userRole,
-              referred_by: referrerId // Save referrer
+              role: safeRole,
+              referred_by: referrerId
             });
         
         if (profileError) {

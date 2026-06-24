@@ -108,21 +108,15 @@ export default function WorkerBalance() {
 
     setWithdrawing(true);
     try {
-      // 1. Insert withdrawal transaction
-      const { error: txErr } = await supabase.from("transactions").insert({
-        user_id:     user.id,
-        amount:      -amount,
-        type:        "withdrawal",
-        description: `Retiro de ${amount} pts`,
-      });
-      if (txErr) throw txErr;
-
-      // 2. Deduct from wallet
-      const { error: wErr } = await supabase
-        .from("wallets")
-        .update({ points: points - amount, updated_at: new Date().toISOString() })
-        .eq("user_id", user.id);
-      if (wErr) throw wErr;
+      // Operación atómica en el servidor: descuenta saldo + registra transacción
+      const { data, error } = await supabase.rpc("request_withdrawal", { p_amount: amount });
+      if (error) {
+        const msg = error.message || "";
+        if (msg.includes("MINIMUM_AMOUNT"))     throw new Error("El mínimo de retiro es 10 pts.");
+        if (msg.includes("INSUFFICIENT_BALANCE")) throw new Error("Saldo insuficiente.");
+        if (msg.includes("WALLET_NOT_FOUND"))   throw new Error("No se encontró tu wallet.");
+        throw error;
+      }
 
       setWithdrawAmount("");
       setWithdrawSuccess(true);

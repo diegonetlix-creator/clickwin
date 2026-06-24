@@ -41,9 +41,11 @@ TECHNICAL_SPEC_CLICKWIN.md
 prompt.md
 *.md
 !README.md
+!AUDIT.md
 
 # Project Specific - SQL and Temp
 *.sql
+!security_hardening.sql
 task bloom-export/
 
 # Agent data

@@ -82,24 +82,31 @@ export function formatPoints(points) {
   return new Intl.NumberFormat('en-US').format(points);
 }
 
-/**
- * Upload a file to Supabase storage.
- */
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const MAX_UPLOAD_BYTES = 5 * 1024 * 1024; // 5 MB
+
 export async function uploadFile(file, options = { isPublic: true }) {
-  
-  const fileExt = file.name.split('.').pop();
-  const fileId = Math.random().toString(36).substring(2);
-  const fileName = `${fileId}-${Date.now()}.${fileExt}`;
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    throw new Error("Tipo de archivo no permitido. Solo se aceptan JPEG, PNG, WebP o GIF.");
+  }
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new Error("El archivo supera el tamaño máximo de 5 MB.");
+  }
+
+  const fileExt  = file.name.split(".").pop().toLowerCase();
+  // crypto.randomUUID() es seguro y disponible en todos los navegadores modernos
+  const fileId   = crypto.randomUUID();
+  const fileName = `${fileId}.${fileExt}`;
   const filePath = `uploads/${fileName}`;
 
-  const { data, error } = await supabase.storage
-    .from('public')
+  const { error } = await supabase.storage
+    .from("public")
     .upload(filePath, file);
 
   if (error) throw error;
 
   const { data: { publicUrl } } = supabase.storage
-    .from('public')
+    .from("public")
     .getPublicUrl(filePath);
 
   return { url: publicUrl, path: filePath };
