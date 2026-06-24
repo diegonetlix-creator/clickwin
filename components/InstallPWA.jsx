@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 
 export default function InstallPWA() {
   const [prompt, setPrompt] = useState(null);
@@ -17,7 +17,7 @@ export default function InstallPWA() {
 
     prompt.prompt();
     const result = await prompt.userChoice;
-    console.log('PWA installation choice:', result);
+    console.warn('PWA installation choice:', result);
     if (result.outcome === 'accepted') {
       setPrompt(null);
     }
@@ -34,3 +34,4 @@ export default function InstallPWA() {
     </button>
   );
 }
+

@@ -50,18 +50,18 @@ export default function MyCampaigns() {
       setLoading(true);
       try {
         const u = await User.me();
-        console.log("Usuario actual:", u);
+        console.warn("Usuario actual:", u);
         
         // Intentamos filtrar por email
         let c = await Campaign.filter({ promoter_email: u?.email }, '-created_at', 100).catch(() => []);
         
         // Si no hay campañas por email, cargamos las últimas 50 sin filtro para asegurar que aparezcan
         if (c.length === 0) {
-          console.log("No se encontraron por email, cargando generales...");
+          console.warn("No se encontraron por email, cargando generales...");
           c = await Campaign.list('-created_at', 50).catch(() => []);
         }
 
-        console.log("Campañas finales:", c);
+        console.warn("Campañas finales:", c);
         setCampaigns(c);
       } catch (err) {
         console.error("Error crítico MyCampaigns:", err);
@@ -113,6 +113,7 @@ export default function MyCampaigns() {
     .filter(c => !search || c.title?.toLowerCase().includes(search.toLowerCase()));
 
   return (
+    <>
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -256,7 +257,6 @@ export default function MyCampaigns() {
         </div>
       )}
     </div>
-
       {confirmDialog && (
         <ConfirmDialog
           message={confirmDialog.message}
@@ -266,5 +266,7 @@ export default function MyCampaigns() {
           danger
         />
       )}
+    </>
   );
 }
+

@@ -474,7 +474,7 @@ export default function TaskDetail() {
           </div>
           <h2 className="font-semibold text-xl text-red-400 mb-1.5 tracking-tight">Tarea rechazada</h2>
           <p className="text-gray-500 text-[13px] opacity-70 max-w-[280px] mx-auto leading-relaxed italic mb-2">
-            "{existingSubmission?.rejection_reason || task.rejection_reason || "La evidencia no cumplió con los requisitos."}"
+            &ldquo;{existingSubmission?.rejection_reason || task.rejection_reason || "La evidencia no cumplió con los requisitos."}&rdquo;
           </p>
           <button 
             onClick={() => navigate(createPageUrl("Tasks"))} 

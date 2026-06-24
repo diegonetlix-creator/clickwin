@@ -104,7 +104,7 @@ ${shareUrl}`;
     const bucketName = "proofs";
 
     // Upload attempt
-    console.log("INICIANDO UPLOAD:", { 
+    console.warn("INICIANDO UPLOAD:", { 
       url: supabase.supabaseUrl,
       bucket: bucketName,
       fileName, 
@@ -428,4 +428,5 @@ ${shareUrl}`;
     </div>
   );
 }
+
 

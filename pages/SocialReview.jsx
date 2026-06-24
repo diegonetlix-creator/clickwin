@@ -17,28 +17,27 @@ export default function SocialReview() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  if (!user) return null;
+  // Todos los hooks ANTES de cualquier early return (regla de React)
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [rejectDialog, setRejectDialog] = useState(null); // { submissionId }
+  const [rejectDialog, setRejectDialog] = useState(null);
   const [rejectReason, setRejectReason] = useState("");
-
-  // Rate limit tracking via ledger
   const rateLimit = useRateLimit(user?.id, "review", 20);
 
   useEffect(() => {
-    const handleEsc = (e) => {
-      if (e.key === 'Escape') setPreview(null);
-    };
+    const handleEsc = (e) => { if (e.key === 'Escape') setPreview(null); };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
   useEffect(() => {
-    fetchSubmissions();
-  }, []);
+    if (user) fetchSubmissions();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
+
+  if (!user) return null;
 
   const fetchSubmissions = async () => {
     setLoading(true);
@@ -48,7 +47,7 @@ export default function SocialReview() {
       const { data, error } = await supabase
         .rpc("get_pending_reviews");
 
-      console.log("REVIEWS DATA:", data);
+      console.warn("REVIEWS DATA:", data);
 
       if (error) throw error;
       setSubmissions(data || []);
@@ -92,12 +91,7 @@ export default function SocialReview() {
       rateLimit.refresh();
 
       // ── UX Trust Messages ────────────────────────────────────────
-      const msg = [
-        `✅ Recompensa acreditada instantáneamente (+${reward} pts)`,
-        "💸 El saldo ha sido transferido correctamente.",
-        "🛡️ Gracias por mantener la comunidad segura.",
-      ].join("\n");
-      alert(msg);
+      toast.success(`✅ Recompensa acreditada (+${reward} pts). ¡Gracias por mantener la comunidad segura!`);
 
     } catch (err) {
       console.error("Error approving submission:", err);
@@ -123,7 +117,7 @@ export default function SocialReview() {
       else if (raw.includes("SUBMISSION_NOT_FOUND"))
         friendly = "❌ Entrega no encontrada. Puede haber sido eliminada.";
 
-      alert(friendly);
+      toast.error(friendly);
     } finally {
       setProcessing(null);
     }
@@ -231,7 +225,7 @@ export default function SocialReview() {
                     <MessageSquare className="w-12 h-12" />
                   </div>
                   <span className="label-mono block mb-2">Evidencia Aportada</span>
-                  <p className="text-sm text-gray-300 font-medium italic leading-relaxed">"{sub.evidence_text}"</p>
+                  <p className="text-sm text-gray-300 font-medium italic leading-relaxed">&ldquo;{sub.evidence_text}&rdquo;</p>
                   
                   {sub.evidence_image ? (
                     <div className="mt-2">
@@ -339,3 +333,4 @@ export default function SocialReview() {
     </div>
   );
 }
+

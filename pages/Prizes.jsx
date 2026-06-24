@@ -159,6 +159,7 @@ export default function Prizes() {
   }
 
   return (
+    <>
     <div className="max-w-6xl mx-auto space-y-12 pb-32 transition-all duration-700">
       {/* Header */}
       <div className="relative flex flex-col md:flex-row justify-between items-center gap-8 bg-gradient-to-br from-indigo-950 via-gray-950 to-black border border-white/5 p-10 rounded-[3.5rem] backdrop-blur-3xl overflow-hidden shadow-2xl">
@@ -375,6 +376,7 @@ export default function Prizes() {
           confirmLabel="Canjear"
         />
       )}
+    </>
   );
 }
 

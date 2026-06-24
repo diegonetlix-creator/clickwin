@@ -422,7 +422,7 @@ export default function Landing() {
                 <div className="flex mb-3">
                   {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 text-yellow-400 fill-yellow-400" />)}
                 </div>
-                <p className="text-gray-300 text-sm leading-relaxed mb-4">"{t.text}"</p>
+                <p className="text-gray-300 text-sm leading-relaxed mb-4">&ldquo;{t.text}&rdquo;</p>
                 {t.points && (
                   <div className="flex gap-3 text-xs">
                     <span className="bg-yellow-400/10 text-yellow-400 px-2 py-1 rounded-full">{t.points} pts</span>

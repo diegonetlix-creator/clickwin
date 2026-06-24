@@ -39,7 +39,17 @@ export default [
     },
   },
   {
-    // Ignorar node_modules y build
-    ignores: ["node_modules/**", "dist/**"],
+    // Archivos de configuración de Node (vite, postcss, tailwind) — usan globals Node
+    files: ["vite.config.*", "postcss.config.*", "tailwind.config.*", "eslint.config.*"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.es2021,
+      },
+    },
+  },
+  {
+    // Ignorar node_modules, build, supabase CLI output y scripts CJS
+    ignores: ["node_modules/**", "dist/**", "supabase/**", "**/*.cjs", "tailwind.config.*", "postcss.config.*", "task bloom-export/**"],
   },
 ];

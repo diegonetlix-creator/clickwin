@@ -8,6 +8,7 @@ import { Submission } from "@/entities/Submission";
 import { Task } from "@/entities/Task";
 import { Campaign } from "@/entities/Campaign";
 import { Notification } from "@/entities/Notification";
+import { WorkerProfile } from "@/entities/WorkerProfile";
 import {
   CheckCircle, XCircle, Eye, Clock, Filter, ExternalLink,
   Camera, User as UserIcon, MessageSquare, X, AlertCircle, Zap, Trash2
@@ -188,6 +189,7 @@ export default function ReviewTasks() {
       setSelectedIds([]);
       toast.success(`Proceso masivo completado: ${successCount} aprobadas.`);
     } catch (err) {
+      console.error("Bulk approve error:", err);
     } finally {
       setIsBulkProcessing(false);
     }

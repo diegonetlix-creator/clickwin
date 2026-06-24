@@ -56,7 +56,7 @@ export default function AdminUsers() {
       });
 
       setUsers(prev => prev.map(u => u.id === user.id ? { ...u, wallet: { balance: balanceNum } } : u));
-      console.log(`Updated balance for ${user.id} to ${balanceNum}`);
+      console.warn(`Updated balance for ${user.id} to ${balanceNum}`);
     } catch (err) {
       console.error("Error updating balance:", err);
       toast.error("Error: " + err.message);
@@ -130,6 +130,7 @@ export default function AdminUsers() {
   );
 
   return (
+    <>
     <div className="max-w-6xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-black flex items-center gap-2">
@@ -235,7 +236,9 @@ export default function AdminUsers() {
           danger
         />
       )}
+    </>
   );
 }
+
 
 
