@@ -25,7 +25,8 @@ export default function ManagePrizes() {
   const [activeTab, setActiveTab] = useState("stock"); // "stock" or "redemptions"
   const [redemptions, setRedemptions] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  
+  const [confirmDialog, setConfirmDialog] = useState(null);
+
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -122,8 +123,7 @@ export default function ManagePrizes() {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("¿Eliminar este premio permanentemente?")) return;
+  const doDelete = async (id) => {
     try {
       const { error } = await supabase.from("prizes").delete().eq("id", id);
       if (error) throw error;
@@ -131,6 +131,15 @@ export default function ManagePrizes() {
     } catch (err) {
       toast.error("Error al procesar. Intenta de nuevo.");
     }
+  };
+
+  const handleDelete = (id) => {
+    setConfirmDialog({
+      message: "¿Eliminar este premio permanentemente?",
+      danger: true,
+      confirmLabel: "Eliminar",
+      onConfirm: () => doDelete(id),
+    });
   };
 
   const toggleStatus = async (prize) => {
@@ -465,6 +474,16 @@ export default function ManagePrizes() {
             </form>
           </div>
         </div>
+      )}
+
+      {confirmDialog && (
+        <ConfirmDialog
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={() => setConfirmDialog(null)}
+          confirmLabel={confirmDialog.confirmLabel}
+          danger={confirmDialog.danger}
+        />
       )}
     </div>
   );

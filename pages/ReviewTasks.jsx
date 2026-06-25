@@ -32,6 +32,7 @@ export default function ReviewTasks() {
   const [evidenceUrls, setEvidenceUrls] = useState({});
   const [selectedIds, setSelectedIds] = useState([]);
   const [isBulkProcessing, setIsBulkProcessing] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState(null);
 
   const isValidUUID = (id) => id && typeof id === "string" && id !== "null" && id.length >= 32;
 
@@ -165,10 +166,17 @@ export default function ReviewTasks() {
     }
   };
 
-  const handleBulkApprove = async () => {
+  const handleBulkApprove = () => {
     if (selectedIds.length === 0) return;
-    if (!confirm(`¿Aprobar las ${selectedIds.length} tareas seleccionadas?`)) return;
-    
+    setConfirmDialog({
+      message: `¿Aprobar las ${selectedIds.length} tareas seleccionadas?`,
+      danger: false,
+      confirmLabel: "Aprobar",
+      onConfirm: () => doBulkApprove(),
+    });
+  };
+
+  const doBulkApprove = async () => {
     setIsBulkProcessing(true);
     try {
       const selectedSubs = submissions.filter(s => selectedIds.includes(s.id));
@@ -195,27 +203,34 @@ export default function ReviewTasks() {
     }
   };
 
-  const handleBulkDelete = async () => {
+  const handleBulkDelete = () => {
     if (selectedIds.length === 0) return;
     const isPending = tab === "pending";
     const msg = isPending ? `¿Rechazar y eliminar permanentemente las ${selectedIds.length} entregas?` : `¿Eliminar permanentemente las ${selectedIds.length} evidencias?`;
-    if (!confirm(msg)) return;
-    
+    setConfirmDialog({
+      message: msg,
+      danger: true,
+      confirmLabel: "Eliminar",
+      onConfirm: () => doBulkDelete(),
+    });
+  };
+
+  const doBulkDelete = async () => {
     setIsBulkProcessing(true);
     try {
       const { error } = await supabase.from('submissions').delete().in('id', selectedIds);
-      
+
       if (error) {
         console.error("Supabase delete error:", error);
         throw error;
       }
-      
+
       setSubmissions(prev => prev.filter(s => !selectedIds.includes(s.id)));
       setSelectedIds([]);
-      alert("Eliminación masiva completada.");
+      toast.success("Eliminación masiva completada.");
     } catch (err) {
       console.error("Bulk delete critical error:", err);
-      alert("Hubo un problema al eliminar: " + (err.message || "Error de red"));
+      toast.error("Hubo un problema al eliminar: " + (err.message || "Error de red"));
     } finally {
       setIsBulkProcessing(false);
     }
@@ -373,6 +388,16 @@ export default function ReviewTasks() {
             </div>
           </div>
         </div>
+      )}
+
+      {confirmDialog && (
+        <ConfirmDialog
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={() => setConfirmDialog(null)}
+          confirmLabel={confirmDialog.confirmLabel}
+          danger={confirmDialog.danger}
+        />
       )}
     </div>
   );

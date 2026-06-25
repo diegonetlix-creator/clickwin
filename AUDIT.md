@@ -74,7 +74,7 @@ Se identificaron **4 hallazgos críticos**, **3 altos**, **4 medios** y **4 bajo
 #### M-2. `alert()` / `confirm()` / `prompt()` nativos del navegador
 - **Archivos:** `AdminUsers.jsx`, `ReviewTasks.jsx`, `SocialReview.jsx`, `ManagePrizes.jsx`, `PromoterMissionManager.jsx`
 - **Problema:** Bloquean el hilo principal, no se pueden estilar y en algunos entornos (PWA standalone, algunos navegadores móviles) están deshabilitados.
-- **Solución pendiente:** Reemplazar por el componente `Toast` ya existente o un modal de confirmación personalizado.
+- **Solución:** Todos los `alert()` se reemplazaron por el componente `Toast` (`toast.success/error/info`) y todos los `confirm()` por el modal `ConfirmDialog` (patrón de estado `confirmDialog` + `onConfirm`). `prompt()` ya se había reemplazado por un modal en `SocialReview.jsx`. No queda ninguna llamada nativa en `pages/`.
 
 #### M-3. Inconsistencia `wallet.points` vs `wallet.balance`
 - **Archivos:** múltiples

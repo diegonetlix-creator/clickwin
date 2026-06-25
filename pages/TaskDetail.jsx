@@ -72,7 +72,7 @@ export default function TaskDetail() {
         } else if (campaignId) {
           const availableTasks = await Task.filter({ campaign_id: campaignId, status: "available" }, "-created_at", 1);
           if (!availableTasks || availableTasks.length === 0) {
-            alert("No hay cupos disponibles para esta tarea en este momento.");
+            toast.error("No hay cupos disponibles para esta tarea en este momento.");
             navigate(createPageUrl("Tasks"));
             return;
           }
@@ -121,7 +121,7 @@ export default function TaskDetail() {
         
         // Anti-self-completion: Don't allow promoter to do their own tasks
         if (t.promoter_id === u.id) {
-          alert("No puedes completar tus propias tareas.");
+          toast.error("No puedes completar tus propias tareas.");
           navigate(createPageUrl("Tasks"));
           return;
         }
@@ -207,7 +207,7 @@ export default function TaskDetail() {
       setStep("submitted");
     } catch (err) {
       console.error("Error crítico en handleSubmit:", err);
-      alert(err.message || "No se pudo enviar la tarea. Verifica tu conexión.");
+      toast.error(err.message || "No se pudo enviar la tarea. Verifica tu conexión.");
     } finally {
       setSubmitting(false);
     }
@@ -365,7 +365,7 @@ export default function TaskDetail() {
              <button 
                onClick={() => {
                  navigator.clipboard.writeText(task.target_url);
-                 alert("Enlace copiado al portapapeles");
+                 toast.success("Enlace copiado al portapapeles");
                }}
                className="bg-gray-900 hover:bg-gray-800 text-gray-300 font-bold px-4 py-2 rounded-xl text-xs transition-colors flex-shrink-0"
              >

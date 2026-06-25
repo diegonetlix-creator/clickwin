@@ -125,7 +125,7 @@ function BannerModal({ banner, onClose, onSaved }) {
         if (itemErr) throw itemErr;
       }
 
-      alert(`✅ Banner ${isEdit ? "actualizado" : "creado"} correctamente.`);
+      toast.success(`Banner ${isEdit ? "actualizado" : "creado"} correctamente.`);
       onSaved();
       onClose();
     } catch (err) {
@@ -307,6 +307,7 @@ export default function AdminBanners() {
   const [modalOpen, setModalOpen]           = useState(false);
   const [editTarget, setEditTarget]         = useState(null); // null = create
   const [previewBanner, setPreviewBanner]   = useState(null);
+  const [confirmDialog, setConfirmDialog]   = useState(null);
 
   useEffect(() => {
     if (!isAdmin) { navigate("/"); return; }
@@ -362,15 +363,23 @@ export default function AdminBanners() {
   };
 
   // ── DELETE BANNER ─────────────────────────────────────────────────────────
-  const deleteBanner = async (bannerId) => {
-    if (!confirm("¿Eliminar este banner y todos sus slides? No se puede deshacer.")) return;
+  const deleteBanner = (bannerId) => {
+    setConfirmDialog({
+      message: "¿Eliminar este banner y todos sus slides? No se puede deshacer.",
+      danger: true,
+      confirmLabel: "Eliminar",
+      onConfirm: () => doDeleteBanner(bannerId),
+    });
+  };
+
+  const doDeleteBanner = async (bannerId) => {
     setProcessing(bannerId);
     try {
       const { error } = await supabase.from("feed_banners").delete().eq("id", bannerId);
       if (error) throw error;
       setBanners(prev => prev.filter(b => b.id !== bannerId));
       if (previewBanner?.id === bannerId) setPreviewBanner(null);
-      alert("Banner eliminado.");
+      toast.success("Banner eliminado.");
     } catch (err) {
       console.error("[AdminBanners] delete:", err);
       toast.error("Error: " + err.message);
@@ -624,6 +633,16 @@ export default function AdminBanners() {
           banner={editTarget}
           onClose={() => { setModalOpen(false); setEditTarget(null); }}
           onSaved={fetchBanners}
+        />
+      )}
+
+      {confirmDialog && (
+        <ConfirmDialog
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={() => setConfirmDialog(null)}
+          confirmLabel={confirmDialog.confirmLabel}
+          danger={confirmDialog.danger}
         />
       )}
     </div>
