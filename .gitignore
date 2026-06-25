@@ -46,6 +46,7 @@ prompt.md
 # Project Specific - SQL and Temp
 *.sql
 !security_hardening.sql
+!fix_social_task_reward_wallet.sql
 task bloom-export/
 
 # Agent data
