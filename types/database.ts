@@ -20,6 +20,26 @@ export interface Profile {
   updated_at: string | null;
 }
 
+/**
+ * Wallet — billetera única por usuario (1 fila por `user_id`).
+ *
+ * Diseño de DOS columnas de saldo, una por tipo de moneda según el rol:
+ *   - `points`  → saldo de los WORKERS. Puntos enteros que se ganan completando
+ *                 tareas y se canjean por premios. Lo leen WorkerDashboard,
+ *                 WorkerBalance, Prizes.
+ *   - `balance` → saldo de los PROMOTERS. Dinero (decimal) que financia campañas
+ *                 y se descuenta al crear misiones. Lo leen/editan AdminUsers,
+ *                 PromoterMissionManager.
+ *
+ * Ambas columnas existen en TODAS las filas; cada rol usa la suya y deja la otra
+ * en 0. NO son intercambiables — confundir `points` con `balance` mezcla puntos
+ * con dinero. Al hacer JOINs o leer la wallet, elige la columna por el rol del
+ * usuario, no asumas una sola.
+ *
+ * Seguridad: el UPDATE directo sobre `wallets` está bloqueado por RLS
+ * (`wallets_no_direct_update`). Modifica el saldo solo vía las RPCs
+ * `request_withdrawal` / `deduct_promoter_budget` (ver security_hardening.sql).
+ */
 export interface Wallet {
   id: string;
   user_id: string;
