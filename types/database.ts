@@ -47,10 +47,6 @@ export interface Wallet {
   points: number;
   /** Balance monetario de promoter (decimal). Columna oficial para saldo promoter. */
   balance: number;
-  /** @deprecated usar points */
-  pts?: number;
-  /** @deprecated usar balance */
-  money?: number;
   created_at: string;
   updated_at: string | null;
 }
