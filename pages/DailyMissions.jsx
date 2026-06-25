@@ -48,7 +48,7 @@ export default function DailyMissions() {
       // Profile for streak
       const { data: prof } = await supabase
         .from("profiles")
-        .select("current_streak, points_balance")
+        .select("current_streak")
         .eq("id", u.id)
         .maybeSingle();
 

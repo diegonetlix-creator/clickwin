@@ -11,6 +11,7 @@ export default function AdminCampaigns() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [processing, setProcessing] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState(null);
 
   useEffect(() => {
     fetchCampaigns();
@@ -54,10 +55,17 @@ export default function AdminCampaigns() {
     }
   };
 
-  const deleteCampaign = async (campaignId) => {
-    try {
-      if(!window.confirm(`ATENCIÓN: ¿Seguro que deseas eliminar permanentemente esta campaña y todas sus interacciones adjuntas?`)) return;
+  const deleteCampaign = (campaignId) => {
+    setConfirmDialog({
+      message: `ATENCIÓN: ¿Seguro que deseas eliminar permanentemente esta campaña y todas sus interacciones adjuntas?`,
+      danger: true,
+      confirmLabel: "Eliminar",
+      onConfirm: () => doDeleteCampaign(campaignId),
+    });
+  };
 
+  const doDeleteCampaign = async (campaignId) => {
+    try {
       setProcessing(campaignId);
       
       const { error } = await supabase
@@ -159,6 +167,16 @@ export default function AdminCampaigns() {
             })}
           </div>
         </div>
+      )}
+
+      {confirmDialog && (
+        <ConfirmDialog
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={() => setConfirmDialog(null)}
+          confirmLabel={confirmDialog.confirmLabel}
+          danger={confirmDialog.danger}
+        />
       )}
     </div>
   );

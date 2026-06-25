@@ -100,7 +100,7 @@ export default function CreateAd() {
     
     // Check size (10MB max)
     if (file.size > 10 * 1024 * 1024) {
-      alert("La imagen no debe superar los 10MB");
+      toast.error("La imagen no debe superar los 10MB");
       return;
     }
     
@@ -126,7 +126,7 @@ export default function CreateAd() {
       if (!u) throw new Error("Debes iniciar sesión para publicar.");
 
       if (!category) {
-        alert("Debes seleccionar una categoría");
+        toast.error("Debes seleccionar una categoría");
         setSaving(false);
         return;
       }

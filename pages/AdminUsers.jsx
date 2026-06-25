@@ -56,7 +56,6 @@ export default function AdminUsers() {
       });
 
       setUsers(prev => prev.map(u => u.id === user.id ? { ...u, wallet: { balance: balanceNum } } : u));
-      console.warn(`Updated balance for ${user.id} to ${balanceNum}`);
     } catch (err) {
       console.error("Error updating balance:", err);
       toast.error("Error: " + err.message);

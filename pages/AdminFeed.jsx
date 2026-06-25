@@ -35,6 +35,7 @@ export default function AdminFeed() {
   const [showCreate, setShowCreate] = useState(false);
   const [editPost, setEditPost]     = useState(null);
   const [uploading, setUploading]   = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState(null);
 
   // Create / Edit form state
   const [form, setForm] = useState({
@@ -95,8 +96,16 @@ export default function AdminFeed() {
     }
   };
 
-  const deletePost = async (postId) => {
-    if (!confirm("¿Eliminar esta publicación permanentemente? Esta acción no se puede deshacer.")) return;
+  const deletePost = (postId) => {
+    setConfirmDialog({
+      message: "¿Eliminar esta publicación permanentemente? Esta acción no se puede deshacer.",
+      danger: true,
+      confirmLabel: "Eliminar",
+      onConfirm: () => doDeletePost(postId),
+    });
+  };
+
+  const doDeletePost = async (postId) => {
     setProcessing(postId + "delete");
     // Snapshot caption before delete for the audit trail
     const postSnapshot = posts.find(p => p.id === postId);
@@ -149,7 +158,7 @@ export default function AdminFeed() {
 
   // ─── CREATE / EDIT POST ───────────────────────────────────────────────────
   const handleSave = async () => {
-    if (!form.caption.trim()) return alert("El texto del post es obligatorio.");
+    if (!form.caption.trim()) { toast.error("El texto del post es obligatorio."); return; }
 
     setProcessing("save");
     try {
@@ -576,6 +585,16 @@ export default function AdminFeed() {
           <span className="text-violet-400 font-bold">Modo Admin:</span> Los posts ocultos y baneados desaparecen del feed público pero permanecen en la base de datos. Solo Eliminar remueve el registro permanentemente. Los usuarios normales nunca verán este panel.
         </p>
       </div>
+
+      {confirmDialog && (
+        <ConfirmDialog
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={() => setConfirmDialog(null)}
+          confirmLabel={confirmDialog.confirmLabel}
+          danger={confirmDialog.danger}
+        />
+      )}
     </div>
   );
 }

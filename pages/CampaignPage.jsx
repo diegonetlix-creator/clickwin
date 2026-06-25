@@ -112,7 +112,7 @@ export default function CampaignPage() {
 
     } catch (err) {
       console.error("Submission error:", err);
-      alert(err.message);
+      toast.error(err.message || "Ocurrió un error");
     } finally {
       setSubmitting(false);
     }

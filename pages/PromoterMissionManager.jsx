@@ -32,7 +32,8 @@ export default function PromoterMissionManager() {
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [saving, setSaving] = useState(false);
-  
+  const [confirmDialog, setConfirmDialog] = useState(null);
+
   // Create / Edit Form State
   const [form, setForm] = useState({
     id: null,
@@ -99,7 +100,7 @@ export default function PromoterMissionManager() {
     const totalCost = form.reward_pts * form.max_completions;
 
     if (wallet < totalCost && !form.id) {
-      alert(`Fondos insuficientes. Necesitas $${totalCost} y tienes $${wallet}.`);
+      toast.error(`Fondos insuficientes. Necesitas $${totalCost} y tienes $${wallet}.`);
       return;
     }
 
@@ -161,15 +162,23 @@ export default function PromoterMissionManager() {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("¿Estás seguro de eliminar esta misión?")) return;
+  const doDelete = async (id) => {
     try {
-      
+
       await supabase.from("daily_missions").delete().eq("id", id);
       loadData();
     } catch (err) {
       console.error("Error deleting mission:", err);
     }
+  };
+
+  const handleDelete = (id) => {
+    setConfirmDialog({
+      message: "¿Estás seguro de eliminar esta misión?",
+      danger: true,
+      confirmLabel: "Eliminar",
+      onConfirm: () => doDelete(id),
+    });
   };
 
   const handleEdit = (mission) => {
@@ -470,6 +479,16 @@ export default function PromoterMissionManager() {
           <PlusCircle className="w-8 h-8" />
         </button>
       </div>
+
+      {confirmDialog && (
+        <ConfirmDialog
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={() => setConfirmDialog(null)}
+          confirmLabel={confirmDialog.confirmLabel}
+          danger={confirmDialog.danger}
+        />
+      )}
     </div>
   );
 }

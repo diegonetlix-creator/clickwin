@@ -69,17 +69,17 @@ Se identificaron **4 hallazgos críticos**, **3 altos**, **4 medios** y **4 bajo
 #### M-1. `console.log` con datos sensibles en producción
 - **Archivos:** múltiples páginas (AdminUsers, SocialReview, WorkerDashboard…)
 - **Problema:** Mensajes de depuración exponen IDs, emails, balances y errores de DB en la consola del navegador en producción.
-- **Solución:** ESLint con regla `"no-console": ["warn", { allow: ["warn","error"] }]`. Ejecutar `npm run lint:fix` para limpiar.
+- **Solución:** ESLint con regla `"no-console": ["warn", { allow: ["warn","error"] }]`. Se eliminaron todos los `console.log` del código fuente y se quitó el `console.warn` que filtraba `user.id` + balance en `AdminUsers.jsx` (ya cubierto por `auditLog`). Los `console.error`/`console.warn` restantes solo registran objetos de error y etiquetas de contexto, sin datos sensibles.
 
 #### M-2. `alert()` / `confirm()` / `prompt()` nativos del navegador
 - **Archivos:** `AdminUsers.jsx`, `ReviewTasks.jsx`, `SocialReview.jsx`, `ManagePrizes.jsx`, `PromoterMissionManager.jsx`
 - **Problema:** Bloquean el hilo principal, no se pueden estilar y en algunos entornos (PWA standalone, algunos navegadores móviles) están deshabilitados.
-- **Solución pendiente:** Reemplazar por el componente `Toast` ya existente o un modal de confirmación personalizado.
+- **Solución:** Todos los `alert()` se reemplazaron por el componente `Toast` (`toast.success/error/info`) y todos los `confirm()` por el modal `ConfirmDialog` (patrón de estado `confirmDialog` + `onConfirm`). `prompt()` ya se había reemplazado por un modal en `SocialReview.jsx`. No queda ninguna llamada nativa en `pages/`.
 
 #### M-3. Inconsistencia `wallet.points` vs `wallet.balance`
 - **Archivos:** múltiples
 - **Problema:** Workers usan `wallets.points`; promoters usan `wallets.balance`. Sin comentario ni documentación, confunde a futuros desarrolladores y puede llevar a bugs de join.
-- **Solución pendiente:** Añadir comentario en `BaseModel.js` y un schema en `entities/`. Considerar renombrar a `worker_points` y `promoter_balance` en una migración futura.
+- **Solución:** Documentado en la interfaz `Wallet` de `types/database.ts` (fuente de verdad de tipos) con un bloque que explica el diseño de dos columnas, qué rol usa cada una, que no son intercambiables, y que el saldo solo se modifica vía RPCs. Pendiente opcional a futuro: renombrar a `worker_points` / `promoter_balance` en una migración.
 
 #### M-4. Sin protección CSRF en el referral tracking
 - **Archivo:** `App.jsx:55-82`

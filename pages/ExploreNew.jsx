@@ -6,6 +6,7 @@ import TaskCard from "../components/TaskCard";
 import BalanceHeader from "../components/BalanceHeader";
 import RewardCard from "../components/RewardCard";
 import { supabase } from "@/supabase";
+import { toast } from "@/components/Toast";
 import "../styles/theme-dark-pro.css";
 import "../styles/explore.css";
 import "../styles/glass.css";
@@ -93,7 +94,7 @@ export default function ExploreNew() {
                     description: "Activa ahora y gana el doble en todas tus tareas por 24h.",
                     cost: 250
                 }}
-                onClick={() => alert("Boost activado")}
+                onClick={() => toast.info("Boost activado")}
             />
         </div>
 
@@ -128,7 +129,7 @@ export default function ExploreNew() {
                         description: "Canjea tus puntos por saldo real en Amazon.",
                         cost: 1000
                     }}
-                    onClick={() => alert("Canjeando...")}
+                    onClick={() => toast.info("Canjeando...")}
                 />
             </div>
         </div>
