@@ -34,6 +34,7 @@ export default function SocialTasks() {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [validationError, setValidationError] = useState("");
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
     fetchTasks();
@@ -41,14 +42,13 @@ export default function SocialTasks() {
 
   const fetchTasks = async () => {
     setLoading(true);
+    setLoadError(false);
     try {
-      // List tasks from social_tasks
       const data = await SocialTask.list('created_at', 50);
-      // Filter tasks not created by me (optional but logical for follow x follow)
-      // Actually, show all for now as requested
       setTasks(data || []);
     } catch (err) {
       console.error("Error fetching tasks:", err);
+      setLoadError(true);
     } finally {
       setLoading(false);
     }
@@ -103,15 +103,7 @@ ${shareUrl}`;
     const fileName = `${user.id}-${Date.now()}.${fileExt}`;
     const bucketName = "proofs";
 
-    // Upload attempt
-    console.warn("INICIANDO UPLOAD:", { 
-      url: supabase.supabaseUrl,
-      bucket: bucketName,
-      fileName, 
-      size: file.size 
-    });
-
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from(bucketName)
       .upload(fileName, file, {
         cacheControl: '3600',
@@ -119,8 +111,8 @@ ${shareUrl}`;
       });
 
     if (error) {
-      console.error("DETAILED UPLOAD ERROR:", error);
-      throw new Error(`Error de red o servidor: ${error.message || 'Error desconocido'}`);
+      console.error("Error subiendo evidencia:", error);
+      throw new Error(`No se pudo subir la captura: ${error.message || 'Error desconocido'}`);
     }
 
     const { data: publicUrlData } = supabase.storage
@@ -193,17 +185,17 @@ ${shareUrl}`;
 
       if (error) {
         if (error.code === '23505') {
-          throw new Error("Esta evidencia ya fue enviada");
+          throw new Error("Ya enviaste una prueba para esta misión");
         }
         throw error;
       }
 
-      alert("¡Registro enviado! El autor revisará tu apoyo pronto.");
+      toast.success("¡Registro enviado! El autor revisará tu apoyo pronto.");
       setActiveTask(null);
       fetchTasks();
     } catch (err) {
       console.error("Error submitting task:", err);
-      toast.error("Error: " + err.message);
+      toast.error(err.message || "No se pudo enviar la prueba. Inténtalo de nuevo.");
     } finally {
       setSubmitting(null);
     }
@@ -211,6 +203,15 @@ ${shareUrl}`;
 
   if (loading) {
     return <LoadingSkeleton message="Cargando misiones sociales" />;
+  }
+
+  if (loadError) {
+    return (
+      <ErrorState
+        message="No se pudieron cargar las misiones. Revisa tu sesión e inténtalo de nuevo."
+        onRetry={fetchTasks}
+      />
+    );
   }
 
   return (

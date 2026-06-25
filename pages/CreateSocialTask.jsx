@@ -33,7 +33,7 @@ export default function CreateSocialTask() {
     setIsSubmitting(true);
     try {
       
-      const { data, error } = await supabase.rpc('create_social_task', {
+      const { error } = await supabase.rpc('create_social_task', {
         p_promoter_id: user.id,
         p_platform: platform,
         p_target_url: targetUrl,
@@ -46,11 +46,11 @@ export default function CreateSocialTask() {
 
       if (error) throw error;
 
-      alert("¡Misión de crecimiento publicada correctamente!");
+      toast.success("¡Misión de crecimiento publicada correctamente!");
       navigate("/social-tasks");
     } catch (err) {
       console.error("Error creating social task:", err);
-      toast.error("Error: " + err.message);
+      toast.error(err.message || "No se pudo publicar la misión. Inténtalo de nuevo.");
     } finally {
       setIsSubmitting(false);
     }
