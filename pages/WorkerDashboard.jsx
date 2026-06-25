@@ -104,7 +104,9 @@ export default function WorkerDashboard() {
         .maybeSingle();
 
       setProfile(prof);
-      const pts = wallet?.points || prof?.points_balance || 0;
+      // wallets.points es la fuente de verdad del saldo (todas las RPCs de
+      // recompensa acreditan ahí). No usar profiles.points_balance.
+      const pts = wallet?.points || 0;
       setPoints(pts);
       setStreak(prof?.current_streak || 0);
 
