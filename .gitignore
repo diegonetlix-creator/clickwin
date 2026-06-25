@@ -47,6 +47,7 @@ prompt.md
 *.sql
 !security_hardening.sql
 !fix_social_task_reward_wallet.sql
+!fix_create_social_task_wallet.sql
 task bloom-export/
 
 # Agent data
